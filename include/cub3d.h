@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/02 21:32:13 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/03 16:07:37 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,21 @@
 
 #define LIMITE 500;
 
+#define NO 0
+#define SO 1
+#define WE 2
+#define EA 3
+#define F 4
+#define C 5
+
 typedef struct s_file
 {
 	char	*text_no;
 	char	*text_so;
 	char	*text_we;
 	char	*text_ea;
-	char	*color_f;
-	char	*color_c;
+	int		color_f;
+	int		color_c;
 	char	**map;
 }			t_file;
 
@@ -37,10 +44,11 @@ typedef struct s_data
 	void	*win;
 	int		width;
 	int		height;
+	char	*file;
 	t_file	x_file;
 }			t_data;
 
-void	open_map(t_data *cube, char *av);
+void	open_map(t_data *cube);
 void	print_error(char *str, int i);
 
 #endif
