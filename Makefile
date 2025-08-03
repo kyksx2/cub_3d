@@ -9,19 +9,23 @@ RESET=\033[0m
 CFLAGS = -Wall -Wextra -Werror -g
 
 SRC = 	main.c \
+		src/parsing/parse_map.c \
+		src/parsing/check_walls.c \
+		src/parsing/all_map.c \
+		outils.c \
 
-MLX = ../mlx_linux/libmlx.a
+MLX = ./mlx_linux/libmlx.a
 
-LIBFT = ./libft/libft.a
+LIBFT = include/libft/libft.a
 
-HEAD = -I ./libft
+HEAD = -I include/libft -I include/mlx_linux
 
 OBJ = $(SRC:.c=.o)
 
 all : ${NAME}
 
 ${NAME}: ${OBJ} ${MLX} ${LIBFT}
-	cc ${CFLAGS} ${OBJ} -lft -L./libft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o ${NAME}
+	cc ${CFLAGS} ${OBJ} -L include/libft -lft -L include/mlx_linux -lmlx -lXext -lX11 -lm -lz -o ${NAME}
 	@echo ""
 	@echo ""
 	@echo "${YELLOW}                                               WELCOME TO                                             ${RESET}"
@@ -46,19 +50,19 @@ ${NAME}: ${OBJ} ${MLX} ${LIBFT}
 	cc ${CFLAGS} -I/usr/include -Imlx_linux -O3 -c $< ${HEAD} -o $@
 
 ${MLX} :
-	@make -C ./mlx_linux --silent
+	@make -C include/mlx_linux --silent
 
 ${LIBFT} :
-	@make -C ./libft --silent
+	@make -C include/libft --silent
 
 clean :
 	@rm -f ${OBJ}
-	@make --silent -C ./mlx_linux clean
-	@make --silent -C ./libft clean
+	@make --silent -C include/mlx_linux clean
+	@make --silent -C include/libft clean
 
 fclean : clean
 	@rm -f ${NAME}
-	@make --silent -C ./libft fclean
+	@make --silent -C include/libft fclean
 
 re : fclean all
 

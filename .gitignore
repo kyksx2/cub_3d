@@ -1,0 +1,4 @@
+*.o
+mlx_linux
+cub_3d
+.vscode
