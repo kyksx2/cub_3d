@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_walls.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 19:07:57 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/03 20:04:39 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/04 11:19:29 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	is_wall(t_data *wall)
 	last--;
 	clean_newlines(wall->x_file.map);
 	if (!horizontal_walls(wall->x_file.map, last))
-		print_error("Error: lines invalid.", 0);
+		print_error("ligne invalide.", 1);
 	if (!vertical_walls(wall->x_file.map))
-		print_error("Error: Columns invalid.", 0);
+		print_error("Colonne invalide.", 1);
 	return (1);
 }

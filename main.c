@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:04:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/03 20:14:22 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/04 11:18:58 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_error(char *str, int i)
 {
-	ft_printf("%s\n", str);
+	ft_printf("Erreur: %s\n", str);
 	exit(i);
 }
 
@@ -52,13 +52,13 @@ int main(int ac, char **av)
 	t_list	*read_map;
 
 	if (ac < 2 || bad_args(av[1]))
-		print_error("Error: bad argument.", 1);
+		print_error("mauvais argument.", 1);
 	read_map = NULL;
-	cub.file = av[1];
-	read_map = read_line(&cub);
-	cub.height = size_map(read_map);
-	cub.x_file.map = convert_map(read_map);
-	validate_map(&cub);
-	// open_map(&cub);
+	init_data(&cub, av[1]);
+	// read_map = read_line(&cub);
+	// cub.height = size_map(read_map);
+	// cub.x_file.map = convert_map(read_map);
+	// validate_map(&cub);
+	open_map(&cub);
 	return (0);
 }

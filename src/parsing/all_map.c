@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 19:04:45 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/03 19:53:39 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/04 11:18:41 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	validate_map(t_data *verif)
 					is_wall(verif);
 			}
 			else
-				print_error("Error: map invalid.", -1);
+				print_error("map invalide.", -1);
 			j++;
 		}
 		i++;

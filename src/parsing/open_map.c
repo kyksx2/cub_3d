@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/03 20:14:43 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/04 11:42:01 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../../include/cub3d.h"
+
 int	check_xpm(char *str)
 {
 	int	len;
@@ -36,18 +37,23 @@ int	check_open(char *str)
 
 void	check_path(t_data *cube, char *str, int type)
 {
+	int	i;
+	
+	i = 0;
+	while(str[i] && str[i] == ' ')
+		i++;
 	if (!check_xpm(str))
-		print_error("Error: texture path need \".xpm\"", 1);
+		print_error("texture dois finir par \".xpm\".", 1);
 	// if (!check_open(str))
-	// 	print_error("Error: texture path invalid", 1);
+	// 	print_error("texture invalide.", 1);
 	if (type == NO && !cube->x_file.text_no)
-		cube->x_file.text_no = ft_strdup(str);
+		cube->x_file.text_no = ft_strdup(&str[i]);
 	else if (type == SO && !cube->x_file.text_so)
-		cube->x_file.text_so = ft_strdup(str);
+		cube->x_file.text_so = ft_strdup(&str[i]);
 	else if (type == WE && !cube->x_file.text_we)
-		cube->x_file.text_we = ft_strdup(str);
+		cube->x_file.text_we = ft_strdup(&str[i]);
 	else if (type == EA && !cube->x_file.text_ea)
-		cube->x_file.text_ea = ft_strdup(str);
+		cube->x_file.text_ea = ft_strdup(&str[i]);
 }
 
 void	check_color(t_data *cube, char *str, int type)
@@ -69,12 +75,16 @@ void	check_color(t_data *cube, char *str, int type)
 			value[k] = value[k] * 10 + (str[i] - '0');
 			i++;
 		}
+		if (value[k] < 0 || value[k] > 255)
+			print_error("mauvais code rgb.", 1);
 		while (str[i] == ' ')
 			i++;
+		if (k == 2 && str[i] != '\n')
+			print_error("code rgb trop long.", 1);
 		if (k < 2)
 		{
 			if (str[i] != ',')
-				print_error("la", 1);
+				print_error("element invalide code rgb.", 1);
 			i++;
 		}
 		k++;
@@ -113,6 +123,24 @@ void	check_line(t_data *cube, char *str)
 		print_error("rentre dans rien", 1);
 }
 
+int	miss_line(t_data *cube)
+{
+	if (!cube->x_file.text_no)
+		return (1);
+	if (!cube->x_file.text_so)
+		return (1);
+	if (!cube->x_file.text_we)
+		return (1);
+	if (!cube->x_file.text_ea)
+		return (1);
+	if (!cube->x_file.color_c)
+		return (1);
+	if (!cube->x_file.color_f)
+		return (1);
+	else
+		return (0);
+}
+
 void	open_map(t_data *cube)
 {
 	char	*str;
@@ -120,7 +148,7 @@ void	open_map(t_data *cube)
 
 	fd = open(cube->file, O_RDONLY);
 	if (fd < 0)
-		print_error("Error: open fd.", EXIT_FAILURE);
+		print_error("fd ouvert.", EXIT_FAILURE);
 	str = get_next_line(fd);
 	while (str)
 	{
@@ -129,9 +157,13 @@ void	open_map(t_data *cube)
 		str = get_next_line(fd);
 	}
 	close(fd);
-	printf("%d\n", cube->x_file.color_c);
+	if(miss_line(cube))
+		print_error("il manque un element.", 1);
+	printf("%s\n", cube->x_file.text_no);
+	printf("%s\n", cube->x_file.text_so);
+	printf("%s\n", cube->x_file.text_we);
+	printf("%s\n", cube->x_file.text_ea);
 	printf("%d\n", cube->x_file.color_f);
-	// printf("%s", cube->x_file.text_so);
-	// printf("%s", cube->x_file.text_we);
-	// printf("%s", cube->x_file.text_ea);
+	printf("%d\n", cube->x_file.color_c);
+
 }

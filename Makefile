@@ -12,6 +12,7 @@ SRC = 	main.c \
 		src/parsing/parse_map.c \
 		src/parsing/check_walls.c \
 		src/parsing/all_map.c \
+		src/parsing/open_map.c \
 		outils.c \
 
 MLX = ./mlx_linux/libmlx.a

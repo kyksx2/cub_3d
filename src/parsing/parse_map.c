@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:33:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/03 19:48:35 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/04 11:21:38 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	map_error(t_list *error, char **map, int i)
 	}
 	free(map);
 	ft_lstclear(&error, free);
-	print_error("Error: malloc of map failed.", -1);
+	print_error("malloc de la map echouer.", -1);
 }
 
 int	is_map_valid(char *str)
@@ -64,7 +64,7 @@ t_list	*read_line(t_data *check)
 	map_lines = NULL;
 	fd = open(check->file, O_RDONLY);
 	if (fd < 0)
-		print_error("Error: file can't open.", -1);
+		print_error("le fichier ne s'ouvre pas.", -1);
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -73,7 +73,7 @@ t_list	*read_line(t_data *check)
 		// 	free(line);
 		// 	ft_lstclear(&map_lines, free);
 		// 	close(fd);
-		// 	print_error("Error: invalid character in map.", -1);
+		// 	print_error("invalide character.", -1);
 		// }
 		ft_lstadd_back(&map_lines, ft_lstnew(line));
 		line = get_next_line(fd);
