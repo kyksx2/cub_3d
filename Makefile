@@ -10,10 +10,9 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 SRC = 	main.c \
 		src/parsing/parse_map.c \
-		src/parsing/check_walls.c \
-		src/parsing/all_map.c \
-		src/parsing/open_map.c \
-		outils.c \
+		src/parsing/create_map.c \
+        src/parsing/check_walls.c \
+        src/parsing/open_map.c \
 
 MLX = ./mlx_linux/libmlx.a
 

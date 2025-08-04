@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/04 11:42:01 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/04 16:06:35 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	check_path(t_data *cube, char *str, int type)
 	while(str[i] && str[i] == ' ')
 		i++;
 	if (!check_xpm(str))
-		print_error("texture dois finir par \".xpm\".", 1);
+		print_error(cube, "texture dois finir par \".xpm\".", 1);
 	// if (!check_open(str))
 	// 	print_error("texture invalide.", 1);
 	if (type == NO && !cube->x_file.text_no)
@@ -76,15 +76,15 @@ void	check_color(t_data *cube, char *str, int type)
 			i++;
 		}
 		if (value[k] < 0 || value[k] > 255)
-			print_error("mauvais code rgb.", 1);
+			print_error(cube, "mauvais code rgb.", 1);
 		while (str[i] == ' ')
 			i++;
 		if (k == 2 && str[i] != '\n')
-			print_error("code rgb trop long.", 1);
+			print_error(cube, "code rgb trop long.", 1);
 		if (k < 2)
 		{
 			if (str[i] != ',')
-				print_error("element invalide code rgb.", 1);
+				print_error(cube, "element invalide code rgb.", 1);
 			i++;
 		}
 		k++;
@@ -120,7 +120,7 @@ void	check_line(t_data *cube, char *str)
 	else if (str[i] == '\n')
 		return ;
 	 else
-		print_error("rentre dans rien", 1);
+		print_error(cube, "rentre dans rien", 1);
 }
 
 int	miss_line(t_data *cube)
@@ -141,6 +141,14 @@ int	miss_line(t_data *cube)
 		return (0);
 }
 
+int start_map(char *line)
+{
+    int i = 0;
+    while (line[i] && line[i] == ' ')
+        i++;
+    return (line[i] == '1');
+}
+
 void	open_map(t_data *cube)
 {
 	char	*str;
@@ -148,22 +156,28 @@ void	open_map(t_data *cube)
 
 	fd = open(cube->file, O_RDONLY);
 	if (fd < 0)
-		print_error("fd ouvert.", EXIT_FAILURE);
+		print_error(cube, "fd ouvert.", EXIT_FAILURE);
 	str = get_next_line(fd);
 	while (str)
 	{
+        if (start_map(str))
+        {
+            read_line(cube, fd, str);
+            break ;
+        }
 		check_line(cube, str);
 		free(str);
 		str = get_next_line(fd);
 	}
+	 if (!str)
+        print_error(cube, "map introuvable.", 1);
 	close(fd);
 	if(miss_line(cube))
-		print_error("il manque un element.", 1);
+		print_error(cube, "il manque un element.", 1);
 	printf("%s\n", cube->x_file.text_no);
 	printf("%s\n", cube->x_file.text_so);
 	printf("%s\n", cube->x_file.text_we);
 	printf("%s\n", cube->x_file.text_ea);
 	printf("%d\n", cube->x_file.color_f);
 	printf("%d\n", cube->x_file.color_c);
-
 }

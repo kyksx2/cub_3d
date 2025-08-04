@@ -6,16 +6,34 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:04:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/04 11:18:58 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/04 16:26:32 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cub3d.h"
 
-void	print_error(char *str, int i)
+void err_free(t_data *err)
 {
-	ft_printf("Erreur: %s\n", str);
-	exit(i);
+	int i;
+
+	if (!err || !err->x_file.map)
+		return;
+	i = 0;
+	while (err->x_file.map[i])
+	{
+		free(err->x_file.map[i]);
+		err->x_file.map[i] = NULL;
+		i++;
+	}
+	free(err->x_file.map);
+	err->x_file.map = NULL;
+}
+
+void    print_error(t_data *data, char *str, int i)
+{
+    err_free(data);
+    ft_printf("Erreur: %s\n", str);
+    exit(i);
 }
 
 int	bad_args(char *av)
@@ -31,34 +49,79 @@ int	bad_args(char *av)
 	return (0);
 }
 
-void    init_data(t_data *cub, char *av)
+void    init_data(t_data *cube, char *av)
 {
-    cub->file = ft_strdup(av);
-    cub->height = 0;
-    cub->mlx = NULL;
-    cub->width = 0;
-    cub->win = NULL;
-    cub->x_file.color_c = 0;
-    cub->x_file.color_f = 0;
-    cub->x_file.text_ea = NULL;
-    cub->x_file.text_no = NULL;
-    cub->x_file.text_so = NULL;
-    cub->x_file.text_we = NULL;
+    cube->file = ft_strdup(av);
+    cube->height = 0;
+    cube->mlx = NULL;
+    cube->width = 0;
+    cube->win = NULL;
+	cube->count_player = 0;
+	cube->x_file.map = NULL;
+    cube->x_file.color_c = 0;
+    cube->x_file.color_f = 0;
+    cube->x_file.text_ea = NULL;
+    cube->x_file.text_no = NULL;
+    cube->x_file.text_so = NULL;
+    cube->x_file.text_we = NULL;
+	cube->player.angle = 0;
+	cube->player.x = 0;
+	cube->player.y = 0;
 }
+
+// void	init_player(t_data *cube)
+// {
+// 	int	y;
+// 	int	x;
+
+// 	y = 0;
+// 	while(cube->x_file.map[y])
+// 	{
+// 		x = 0;
+// 		while(cube->x_file.map[y][x])
+// 		{
+// 			if(cube->x_file.map[y][x] == 'N' || cube->x_file.map[y][x] == 'S' ||
+// 				cube->x_file.map[y][x] == 'E' || cube->x_file.map[y][x] == 'W')
+// 				{
+// 					cube->player.x = (x + 0.5) * CUB_PIXEL; // ? + 0.5 pour centrer
+// 					cube->player.y = (y + 0,5) * CUB_PIXEL;
+// 					if(cube->x_file.map[y][x] == 'N')
+// 						cube->player.angle = M_PI / 2;
+// 					if(cube->x_file.map[y][x] == 'S')
+// 						cube->player.angle = 3 * M_PI / 2;
+// 					if(cube->x_file.map[y][x] == 'E')
+// 						cube->player.angle = 0;
+// 					if(cube->x_file.map[y][x] == 'W')
+// 						cube->player.angle = M_PI;		
+// 					cube->x_file.map[y][x] = '0';
+// 				}
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
 
 int main(int ac, char **av)
 {
-	t_data	cub;
+	t_data	cube;
 	t_list	*read_map;
 
 	if (ac < 2 || bad_args(av[1]))
-		print_error("mauvais argument.", 1);
+		print_error(NULL, "mauvais argument.", 1);
 	read_map = NULL;
-	init_data(&cub, av[1]);
-	// read_map = read_line(&cub);
-	// cub.height = size_map(read_map);
-	// cub.x_file.map = convert_map(read_map);
-	// validate_map(&cub);
-	open_map(&cub);
+	init_data(&cube, av[1]);
+	// read_map = read_line(&cube);
+	// cube.height = size_map(read_map);
+	// cube.x_file.map = convert_map(read_map);
+	// validate_map(&cube);
+	open_map(&cube);
+	// init_player(&cube);
+	cube.mlx = mlx_init();
+	if (!cube.mlx)
+		print_error(NULL, "mlx init.", 1);
+	cube.win = mlx_new_window(cube.mlx, 640, 480, "cub_3d");
+	// mlx_loop_hook(cube.mlx, render, &cube);
+	// mlx_hook(cube.win, 2, 1L << 0, key_action, &cube);
+	mlx_loop(cube.mlx);
 	return (0);
 }
