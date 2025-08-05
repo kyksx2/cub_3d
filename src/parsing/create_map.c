@@ -6,24 +6,11 @@
 /*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:33:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/04 16:03:40 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:43:28 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-static void	map_error(t_list *error, char **map, int i)
-{
-	while (i > 0)
-	{
-		free(map[i]);
-		i--;
-	}
-	free(map);
-	ft_lstclear(&error, free);
-	ft_printf("Erreur : echec de l'allocation de la map.\n");
-	exit(EXIT_FAILURE);
-}
 
 int	is_map_valid(char *str)
 {

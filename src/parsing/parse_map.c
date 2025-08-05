@@ -6,7 +6,7 @@
 /*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 19:04:45 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/04 16:08:36 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:36:26 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ static void	init_pos(t_data *init, char c)
 	}
 }
 
-static int	is_valid_pos(char c)
-{
-	return (c == 'N' || c == 'S' || c == 'W' || c == 'E');
-}
-
 int	check_elements(t_data *elem)
 {
 	int	i;
@@ -52,10 +47,11 @@ int	check_elements(t_data *elem)
 		j = 0;
 		while (elem->x_file.map[i][j])
 		{
-			if (is_valid_pos(elem->x_file.map[i][j]))
+			if (sheinez2(elem->x_file.map[i][j]))
 				init_pos(elem, elem->x_file.map[i][j]);
 			else if (elem->x_file.map[i][j] != '0'
-				&& elem->x_file.map[i][j] != '1')
+				&& elem->x_file.map[i][j] != '1'
+				&& elem->x_file.map[i][j] != ' ')
 				return (0);
 			j++;
 		}

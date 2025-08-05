@@ -6,34 +6,11 @@
 /*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/04 16:06:35 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:38:00 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-int	check_xpm(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	if (len < 4)
-		return (0);
-	return ((!ft_strcmp(str + len - 5, ".xpm\n")));
-}
-
-int	check_open(char *str)
-{
-	int	fd;
-
-	if (!str)
-		return (0);
-	fd = open(str, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	close(fd);
-	return (1);
-}
 
 void	check_path(t_data *cube, char *str, int type)
 {
@@ -141,14 +118,6 @@ int	miss_line(t_data *cube)
 		return (0);
 }
 
-int start_map(char *line)
-{
-    int i = 0;
-    while (line[i] && line[i] == ' ')
-        i++;
-    return (line[i] == '1');
-}
-
 void	open_map(t_data *cube)
 {
 	char	*str;
@@ -174,6 +143,7 @@ void	open_map(t_data *cube)
 	close(fd);
 	if(miss_line(cube))
 		print_error(cube, "il manque un element.", 1);
+	// print_map(cube);	
 	printf("%s\n", cube->x_file.text_no);
 	printf("%s\n", cube->x_file.text_so);
 	printf("%s\n", cube->x_file.text_we);

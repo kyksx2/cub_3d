@@ -1,4 +1,4 @@
 *.o
-mlx_linux
 cub_3d
+mlx_linux
 .vscode

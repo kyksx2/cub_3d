@@ -3,37 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:04:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/04 16:26:32 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/05 19:34:32 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "../include/cub3d.h"
 
-void err_free(t_data *err)
+int	endgame(t_data *cube)
 {
-	int i;
-
-	if (!err || !err->x_file.map)
-		return;
-	i = 0;
-	while (err->x_file.map[i])
-	{
-		free(err->x_file.map[i]);
-		err->x_file.map[i] = NULL;
-		i++;
-	}
-	free(err->x_file.map);
-	err->x_file.map = NULL;
-}
-
-void    print_error(t_data *data, char *str, int i)
-{
-    err_free(data);
-    ft_printf("Erreur: %s\n", str);
-    exit(i);
+	(void)cube;
+	exit(0);
 }
 
 int	bad_args(char *av)
@@ -84,7 +66,7 @@ void    init_data(t_data *cube, char *av)
 // 				cube->x_file.map[y][x] == 'E' || cube->x_file.map[y][x] == 'W')
 // 				{
 // 					cube->player.x = (x + 0.5) * CUB_PIXEL; // ? + 0.5 pour centrer
-// 					cube->player.y = (y + 0,5) * CUB_PIXEL;
+// 					cube->player.y = (y + 0.5) * CUB_PIXEL;
 // 					if(cube->x_file.map[y][x] == 'N')
 // 						cube->player.angle = M_PI / 2;
 // 					if(cube->x_file.map[y][x] == 'S')
@@ -110,10 +92,6 @@ int main(int ac, char **av)
 		print_error(NULL, "mauvais argument.", 1);
 	read_map = NULL;
 	init_data(&cube, av[1]);
-	// read_map = read_line(&cube);
-	// cube.height = size_map(read_map);
-	// cube.x_file.map = convert_map(read_map);
-	// validate_map(&cube);
 	open_map(&cube);
 	// init_player(&cube);
 	cube.mlx = mlx_init();
@@ -121,7 +99,8 @@ int main(int ac, char **av)
 		print_error(NULL, "mlx init.", 1);
 	cube.win = mlx_new_window(cube.mlx, 640, 480, "cub_3d");
 	// mlx_loop_hook(cube.mlx, render, &cube);
-	// mlx_hook(cube.win, 2, 1L << 0, key_action, &cube);
+	mlx_hook(cube.win, 2, 1L << 0, key_action, &cube);
+	mlx_hook(cube.win, 17, 0, endgame, &cube);
 	mlx_loop(cube.mlx);
 	return (0);
 }
