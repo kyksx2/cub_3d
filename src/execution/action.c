@@ -6,25 +6,67 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:46:28 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/06 16:43:51 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/07 16:59:12 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+
 int key_action(int keycode, t_data *cube)
 {
-    double speed = 5.0; // vitesse en pixels
+    t_player *player = &cube->player;
 
-    if (keycode == XK_Up) // W
-        cube->player.y -= speed;
-    else if (keycode == XK_Down) // S
-        cube->player.y += speed;
-    else if (keycode == XK_Left) // A
-        cube->player.x -= speed;
-    else if (keycode == XK_Right) // D
-        cube->player.x += speed;
-    execution(cube);
-    return (0);
+    int speed = 5;
+    float angle_speed = 0.1;
+    
+    if (keycode == XK_Escape)
+        exit (0);
+    if (keycode == XK_Right)
+        cube->player.angle += angle_speed;
+    if (keycode == XK_Left)
+        cube->player.angle -= angle_speed;   
+    if (keycode == XK_w)
+    {
+        player->x += cos(player->angle) * speed;
+        player->y += sin(player->angle) * speed;
+    }
+    if (keycode == XK_s)
+    {
+        player->x -= cos(player->angle) * speed;
+        player->y -= sin(player->angle) * speed;
+    }
+    if (keycode == XK_a)
+    {
+        player->x -= sin(player->angle) * speed;
+        player->y += cos(player->angle) * speed;
+    }
+    if (keycode == XK_d)
+    {
+        player->x += sin(player->angle) * speed;
+        player->y -= cos(player->angle) * speed;
+    }
+	return (0);
 }
+
+// int key_action(int keycode, t_data *cube)
+// {
+//     t_player *player = &cube->player;
+
+//     int speed = 5; // vitesse en pixels
+    
+//     if (keycode == XK_Escape)
+//         exit (0);
+//     if (keycode == XK_w)
+//         player->y -= speed;    // !! version 2D
+//     if (keycode == XK_a)
+//         player->x -= speed;
+//     if (keycode == XK_s)
+//         player->y += speed;
+//     if (keycode == XK_d)
+//     {
+//         player->x += speed;
+//     }
+// 	return (0);
+// }
 

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/06 15:58:06 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/07 14:56:59 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	open_map(t_data *cube)
 	   print_error(cube, "map introuvable.", 1);
 	if(miss_line(cube))
 		print_error(cube, "il manque un element.", 1);
+	final_map(cube);
 	// print_map(cube);	
 	// printf("%s\n", cube->x_file.text_no);
 	// printf("%s\n", cube->x_file.text_so);

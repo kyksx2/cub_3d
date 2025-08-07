@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/06 16:35:45 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/07 15:31:40 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef enum e_dir
 	WEST,
 }			t_dir;
 
-#define CUB_PIXEL 64; // ? 64 est une puissance de 2 et est souvent utiliser comme norme pour du raycasting
-#define	MOVE_SPEED 4.0; // ? valeur par defaut a ajuster pour la vitesse
+#define WIDTH 1280
+#define HEIGHT 720
 
 #define NO 0
 #define SO 1
@@ -50,13 +50,11 @@ typedef enum e_dir
 
 typedef struct s_texture
 {
-	void	*img; // mlx_xpm_file_to_immage()
-	// char	*addr; // mlx_get_data_addr()
-	// int		height; // donner remplies par mlx_xpm_file_to_immage()
-	// int		width; // donner remplies par mlx_xpm_file_to_immage()
-	// int		bpp; // bits par pixels, a voir plus  tard
-	// int		line_len; // taille d'une ligne de pixels
-	// int		endian; // ordre es octets
+	void	*img;
+	char	*data;
+	int		bpp;
+	int		line_len;
+	int		endian;
 }			t_texture;
 
 typedef struct s_file
@@ -75,7 +73,7 @@ typedef struct s_player
 	double	x;
 	double	y;
 	double	angle;
-}				t_player;
+}			t_player;
 
 typedef struct s_data 
 {
@@ -85,7 +83,7 @@ typedef struct s_data
 	int			height;
 	char		*file;
 	int			count_player;
-	t_texture	texture[4];
+	t_texture	texture;
 	t_dir		type;
 	t_player	player;
 	t_file		x_file;
@@ -97,6 +95,7 @@ void	open_map(t_data *cube);
 // Check_open
 int		check_xpm(char *str);
 int		check_open(char *str);
+void	final_map(t_data *game);
 
 // Checking map
 char    **convert_map(t_data *check, t_list *map_lines);

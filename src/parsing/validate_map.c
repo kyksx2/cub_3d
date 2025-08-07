@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:19:20 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/07 14:08:24 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:59:46 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../include/cub3d.h"
 
 void get_max(char **map, t_data *size)
 {
