@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:02:43 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/07 17:31:16 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:01:18 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,40 @@ void draw_map(t_data *cube)
 	
 }
 
+int touch(float px, float py, t_data *cube)
+{
+    int x;
+    int y;
+
+    x = px / 64;
+    y = py / 64;
+    if (y < 0 || y >= cube->height || x < 0 || x >= cube->width)
+        return (1);
+    if (cube->x_file.map[y][x] == '1')
+        return (1);
+    return (0);
+}
+
 int	execution(t_data *cube)
 {
     t_player *player;
     
     player = &cube->player;
+    float px = player->x;
+    float py = player->y;
+    float cos_angle = cos(player->angle);
+    float sin_angle = sin(player->angle);
+    
     mlx_clear_window(cube->mlx, cube->win);
     clear_image(cube);
     draw_square(player->x, player->y, 10, 0x00FF00, cube);
 	draw_map(cube);
+    while(!touch(px, py, cube))
+    {
+        put_pixel(px, py, 0xFF0000, cube);
+        px += cos_angle;
+        py += sin_angle;
+    }
     mlx_put_image_to_window(cube->mlx, cube->win, cube->texture.img, 0, 0);
     return (0);  
 }
