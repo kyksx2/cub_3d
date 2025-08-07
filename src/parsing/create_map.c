@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:33:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/06 12:11:13 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:24:39 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	map_error(t_list *error, char **map, int i)
+{
+	while (i >= 0)
+	{
+		free(map[i]);
+		i--;
+	}
+	free(map);
+	ft_lstclear(&error, free);
+	ft_printf("Erreur : echec de l'allocation de la map.\n");
+}
 
 int	is_map_valid(char *str)
 {

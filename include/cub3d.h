@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/07 15:31:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:30:05 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 #include <math.h>
 
 #define LIMITE 500;
+
+#ifndef M_PI
+# define M_PI 3.14159265358979323846
+#endif
+
 
 // x = colonne
 // y = ligne
@@ -88,6 +93,8 @@ typedef struct s_data
 	t_player	player;
 	t_file		x_file;
 }				t_data;
+
+void	init_all(t_data *init, char *file);
 
 // Check text+color
 void	open_map(t_data *cube);

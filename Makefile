@@ -7,6 +7,7 @@ RESET=\033[0m
 CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
 
 SRC = 	src/main.c \
+		src/init.c \
 		src/parsing/check_walls.c \
 		src/parsing/parse_map.c \
 		src/parsing/create_map.c \

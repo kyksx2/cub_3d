@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:02:43 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/07 16:58:48 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:31:16 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ void draw_map(t_data *cube)
 
 int	execution(t_data *cube)
 {
-    t_player *player = &cube->player;
-
+    t_player *player;
+    
+    player = &cube->player;
     mlx_clear_window(cube->mlx, cube->win);
     clear_image(cube);
     draw_square(player->x, player->y, 10, 0x00FF00, cube);
