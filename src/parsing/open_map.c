@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/05 18:38:00 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:58:06 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	check_line(t_data *cube, char *str)
 	else if (str[i] == '\n')
 		return ;
 	 else
-		print_error(cube, "rentre dans rien", 1);
+		print_error(cube, "rentre dans rien", -1);
 }
 
 int	miss_line(t_data *cube)
@@ -138,16 +138,16 @@ void	open_map(t_data *cube)
 		free(str);
 		str = get_next_line(fd);
 	}
-	 if (!str)
-        print_error(cube, "map introuvable.", 1);
 	close(fd);
+	if (!str)
+	   print_error(cube, "map introuvable.", 1);
 	if(miss_line(cube))
 		print_error(cube, "il manque un element.", 1);
 	// print_map(cube);	
-	printf("%s\n", cube->x_file.text_no);
-	printf("%s\n", cube->x_file.text_so);
-	printf("%s\n", cube->x_file.text_we);
-	printf("%s\n", cube->x_file.text_ea);
-	printf("%d\n", cube->x_file.color_f);
-	printf("%d\n", cube->x_file.color_c);
+	// printf("%s\n", cube->x_file.text_no);
+	// printf("%s\n", cube->x_file.text_so);
+	// printf("%s\n", cube->x_file.text_we);
+	// printf("%s\n", cube->x_file.text_ea);
+	// printf("%d\n", cube->x_file.color_f);
+	// printf("%d\n", cube->x_file.color_c);
 }

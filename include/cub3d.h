@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/05 19:34:49 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:35:45 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ typedef enum e_dir
 typedef struct s_texture
 {
 	void	*img; // mlx_xpm_file_to_immage()
-	char	*addr; // mlx_get_data_addr()
-	int		height; // donner remplies par mlx_xpm_file_to_immage()
-	int		width; // donner remplies par mlx_xpm_file_to_immage()
-	int		bpp; // bits par pixels, a voir plus  tard
-	int		line_len; // taille d'une ligne de pixels
-	int		endian; // ordre es octets
+	// char	*addr; // mlx_get_data_addr()
+	// int		height; // donner remplies par mlx_xpm_file_to_immage()
+	// int		width; // donner remplies par mlx_xpm_file_to_immage()
+	// int		bpp; // bits par pixels, a voir plus  tard
+	// int		line_len; // taille d'une ligne de pixels
+	// int		endian; // ordre es octets
 }			t_texture;
 
 typedef struct s_file
@@ -114,18 +114,19 @@ int		sheinez2(char c);
 int		start_map(char *line);
 
 // Free / errors
-void	err_free(t_data *err);
+void 	free_map(t_data *err);
 void    print_error(t_data *data, char *str, int i);
 void	map_error(t_list *error, char **map, int i);
 void	print_error(t_data *check, char *str, int i);
+void	free_cube(t_data *cube);
 
 // -------------------- E X E C U T I O N ----------------------------
 
 // raycasting
-void	render(t_data *cube);
+int execution(t_data *cube);
 
 // mouvement
-int	key_action(int keycode, void *param);
+int	key_action(int keycode, t_data *cube);
 int	endgame(t_data *cube);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:33:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/05 18:43:28 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/06 12:11:13 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ void read_line(t_data *cube, int fd, char *first_map_line)
         ft_lstadd_back(&map_lines, ft_lstnew(line));
         line = get_next_line(fd);
     }
+	close(fd);
     cube->height = size_map(map_lines);
     cube->x_file.map = convert_map(cube, map_lines);
+	//free(line)
     validate_map(cube);
 }
 
-char	**convert_map(t_data *check, t_list *map_lines)
+char	**convert_map(t_data *cube, t_list *map_lines)
 {
 	t_list	*tmp;
 	char	**map;
@@ -80,15 +82,18 @@ char	**convert_map(t_data *check, t_list *map_lines)
 		j = 0;
 		map[i] = ft_strdup(tmp->content);
 		if (!map[i])
+		{
 			map_error(map_lines, map, i);
+			exit(-1);
+		}
 		while (map[i][j] && map[i][j] != '1')
 			j++;
 		if (map[i][j] == '1')
 		{
 			if (!is_map_valid(map[i]))
 			{
-				ft_lstclear(&tmp, free);
-				print_error(check, "caractere invalide.", -1);
+				map_error(map_lines, map, i);
+				print_error(cube, "caractere invalide.", -1);
 			}
 		}
 		tmp = tmp->next;

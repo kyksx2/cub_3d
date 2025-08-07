@@ -14,7 +14,8 @@ SRC = 	src/main.c \
 		src/parsing/check_open.c \
 		src/parsing/outils.c \
 		src/execution/action.c \
-		src/errors.c \
+		src/parsing/errors.c \
+		src/execution/render.c \
 
 MLX = include/mlx_linux/libmlx.a
 

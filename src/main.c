@@ -3,18 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:04:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/05 19:34:32 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:31:43 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
+
 int	endgame(t_data *cube)
 {
-	(void)cube;
+	free_cube(cube);
+	if (cube->mlx && cube->win)
+		mlx_destroy_window(cube->mlx, cube->win);
+	if (cube->mlx)
+	{
+		mlx_destroy_display(cube->mlx);
+		free(cube->mlx);
+	}
 	exit(0);
 }
 
@@ -51,37 +59,39 @@ void    init_data(t_data *cube, char *av)
 	cube->player.y = 0;
 }
 
-// void	init_player(t_data *cube)
-// {
-// 	int	y;
-// 	int	x;
+void	init_player(t_data *cube)
+{
+	int	y;
+	int	x;
 
-// 	y = 0;
-// 	while(cube->x_file.map[y])
-// 	{
-// 		x = 0;
-// 		while(cube->x_file.map[y][x])
-// 		{
-// 			if(cube->x_file.map[y][x] == 'N' || cube->x_file.map[y][x] == 'S' ||
-// 				cube->x_file.map[y][x] == 'E' || cube->x_file.map[y][x] == 'W')
-// 				{
-// 					cube->player.x = (x + 0.5) * CUB_PIXEL; // ? + 0.5 pour centrer
-// 					cube->player.y = (y + 0.5) * CUB_PIXEL;
-// 					if(cube->x_file.map[y][x] == 'N')
-// 						cube->player.angle = M_PI / 2;
-// 					if(cube->x_file.map[y][x] == 'S')
-// 						cube->player.angle = 3 * M_PI / 2;
-// 					if(cube->x_file.map[y][x] == 'E')
-// 						cube->player.angle = 0;
-// 					if(cube->x_file.map[y][x] == 'W')
-// 						cube->player.angle = M_PI;		
-// 					cube->x_file.map[y][x] = '0';
-// 				}
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
+	y = 0;
+	while(cube->x_file.map[y])
+	{
+		x = 0;
+		while(cube->x_file.map[y][x])
+		{
+			if(cube->x_file.map[y][x] == 'N' || cube->x_file.map[y][x] == 'S' ||
+				cube->x_file.map[y][x] == 'E' || cube->x_file.map[y][x] == 'W')
+				{
+					cube->player.x = (x + 0.5) * CUB_PIXEL; // ? + 0.5 pour centrer
+					cube->player.y = (y + 0.5) * CUB_PIXEL;
+					if(cube->x_file.map[y][x] == 'N')
+						cube->player.angle = M_PI / 2;
+					if(cube->x_file.map[y][x] == 'S')
+						cube->player.angle = 3 * M_PI / 2;
+					if(cube->x_file.map[y][x] == 'E')
+						cube->player.angle = 0;
+					if(cube->x_file.map[y][x] == 'W')
+						cube->player.angle = M_PI;		
+					cube->x_file.map[y][x] = '0';
+				}
+			x++;
+		}
+		y++;
+	}
+	printf("%f\n", cube->player.x);
+	printf("%f\n", cube->player.y);
+}
 
 int main(int ac, char **av)
 {
@@ -93,12 +103,12 @@ int main(int ac, char **av)
 	read_map = NULL;
 	init_data(&cube, av[1]);
 	open_map(&cube);
-	// init_player(&cube);
+	init_player(&cube);
 	cube.mlx = mlx_init();
 	if (!cube.mlx)
 		print_error(NULL, "mlx init.", 1);
-	cube.win = mlx_new_window(cube.mlx, 640, 480, "cub_3d");
-	// mlx_loop_hook(cube.mlx, render, &cube);
+	cube.win = mlx_new_window(cube.mlx, 1500, 1500, "cub_3d");
+	mlx_loop_hook(cube.mlx, execution, &cube);
 	mlx_hook(cube.win, 2, 1L << 0, key_action, &cube);
 	mlx_hook(cube.win, 17, 0, endgame, &cube);
 	mlx_loop(cube.mlx);
