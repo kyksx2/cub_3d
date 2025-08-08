@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/07 17:12:13 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:21:56 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,27 @@
 
 void	check_path(t_data *cube, char *str, int type)
 {
-	int	i;
-	
-	i = 0;
-	while(str[i] && str[i] == ' ')
+	char	*trimmed;
+	int		i = 0;
+
+	while (str[i] && str[i] == ' ')
 		i++;
-	if (!check_xpm(str))
-		print_error(cube, "texture dois finir par \".xpm\".", 1);
-	// if (!check_open(str))
-	// 	print_error("texture invalide.", 1);
+	trimmed = ft_strtrim(&str[i], " \n\r\t");
+	if (!trimmed)
+		print_error(cube, "allocation échouée.", 1);
+	if (!check_xpm(trimmed))
+		print_error(cube, "texture doit finir par \".xpm\".", 1);
+	if (!check_open(trimmed))
+		print_error(cube, "texture invalide.", -1);
 	if (type == NO && !cube->x_file.text_no)
-		cube->x_file.text_no = ft_strdup(&str[i]);
+		cube->x_file.text_no = ft_strdup(trimmed);
 	else if (type == SO && !cube->x_file.text_so)
-		cube->x_file.text_so = ft_strdup(&str[i]);
+		cube->x_file.text_so = ft_strdup(trimmed);
 	else if (type == WE && !cube->x_file.text_we)
-		cube->x_file.text_we = ft_strdup(&str[i]);
+		cube->x_file.text_we = ft_strdup(trimmed);
 	else if (type == EA && !cube->x_file.text_ea)
-		cube->x_file.text_ea = ft_strdup(&str[i]);
+		cube->x_file.text_ea = ft_strdup(trimmed);
+	free(trimmed);
 }
 
 void	check_color(t_data *cube, char *str, int type)
@@ -144,11 +148,4 @@ void	open_map(t_data *cube)
 	if(miss_line(cube))
 		print_error(cube, "il manque un element.", 1);
 	final_map(cube);
-	// print_map(cube);	
-	// printf("%s\n", cube->x_file.text_no);
-	// printf("%s\n", cube->x_file.text_so);
-	// printf("%s\n", cube->x_file.text_we);
-	// printf("%s\n", cube->x_file.text_ea);
-	// printf("%d\n", cube->x_file.color_f);
-	// printf("%d\n", cube->x_file.color_c);
 }

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:02:43 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/07 18:01:18 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/08 15:25:11 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void put_pixel(int x, int y, int color, t_data *game)
 {
     if(x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
         return ;
-    int index = y * game->texture.line_len + x * game->texture.bpp / 8;
-    game->texture.data[index] = color & 0xFF;
-    game->texture.data[index + 1] = (color >> 8) & 0xFF;
-    game->texture.data[index + 2] = (color >> 16) & 0xFF;
+    int index = y * game->main_img.line_len + x * game->main_img.bpp / 8;
+    game->main_img.data[index] = color & 0xFF;
+    game->main_img.data[index + 1] = (color >> 8) & 0xFF;
+    game->main_img.data[index + 2] = (color >> 16) & 0xFF;
 }
 
 void draw_square(int x, int y, int size, int color, t_data *game)
@@ -88,26 +88,69 @@ int touch(float px, float py, t_data *cube)
     return (0);
 }
 
-int	execution(t_data *cube)
+float distance(float x, float y)
 {
-    t_player *player;
-    
-    player = &cube->player;
+    return sqrt(x * x + y * y);
+}
+
+float fixed_dist(float px, float py, t_data *cube)
+{
+    float delta_x = px - cube->player.x;
+    float delta_y = py - cube->player.y;
+    float angle = atan2(delta_y, delta_x) - cube->player.angle;
+    float fixed = distance(delta_x, delta_y) * cos(angle);
+    return (fixed);
+}
+
+void draw_line(t_player *player, t_data *cube, float start_x, int i)
+{
+    float cos_angle = cos(start_x);
+    float sin_angle = sin(start_x);
     float px = player->x;
     float py = player->y;
-    float cos_angle = cos(player->angle);
-    float sin_angle = sin(player->angle);
-    
-    mlx_clear_window(cube->mlx, cube->win);
-    clear_image(cube);
-    draw_square(player->x, player->y, 10, 0x00FF00, cube);
-	draw_map(cube);
+
     while(!touch(px, py, cube))
     {
-        put_pixel(px, py, 0xFF0000, cube);
+        if (DEBUG)
+            put_pixel(px, py, 0xFF0000, cube);
         px += cos_angle;
         py += sin_angle;
     }
-    mlx_put_image_to_window(cube->mlx, cube->win, cube->texture.img, 0, 0);
+    if (!DEBUG)
+    {
+        float dist = fixed_dist(px, py, cube);
+        float height = (64 / dist) * (WIDTH / 2);
+        int start_y = (HEIGHT - height) / 2;
+        int end = start_y + height;
+        while (start_y < end)
+        {
+            put_pixel(i, start_y, 0xFFFFFF, cube);
+            start_y++;
+        }        
+    }
+}
+
+int	execution(t_data *cube)
+{
+    t_player *player;
+    player = &cube->player;
+    float traction = M_PI / 3 / WIDTH;
+    float start_x = player->angle - M_PI / 6;
+    int i = 0;
+
+    mlx_clear_window(cube->mlx, cube->win);
+    clear_image(cube);
+    if (DEBUG)
+    {
+        draw_square(player->x, player->y, 10, 0x00FF00, cube);
+        draw_map(cube);
+    }
+    while(i < WIDTH)
+    {
+        draw_line(player, cube, start_x, i);
+        start_x += traction;
+        i++;
+    }
+    mlx_put_image_to_window(cube->mlx, cube->win, cube->main_img.img, 0, 0);
     return (0);  
 }

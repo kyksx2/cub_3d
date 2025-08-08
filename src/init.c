@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 17:22:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/07 17:30:21 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:15:36 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,20 @@ static void	init_player(t_data *cube)
 	}
 }
 
+void	load_img(t_data *cube, t_image *texture, char *str)
+{
+	int h;
+	int	w;
+
+	texture->img = mlx_xpm_file_to_image(cube->mlx, str, &w, &h);
+	if (!texture->img)
+		print_error(cube, "chargement de l'image.", -1);
+	texture->data = mlx_get_data_addr(texture->img, &texture->bpp, 
+		&texture->line_len, &texture->endian);
+	if (!texture->data)
+		print_error(cube, "chargement de l'image.", -1);
+}
+
 static int	init_game(t_data *cube)
 {
 	if (!cube)
@@ -69,14 +83,25 @@ static int	init_game(t_data *cube)
 	cube->win = mlx_new_window(cube->mlx, WIDTH, HEIGHT, "cub_3d");
 	if (!cube->win)
 		print_error(NULL, "mlx init.", 1);
-	cube->texture.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT);
-	if (!cube->texture.img)
+	cube->main_img.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT);
+	if (!cube->main_img.img)
 		print_error(cube, "Erreur image.", 1);
-	cube->texture.data = mlx_get_data_addr(cube->texture.img,
-		&cube->texture.bpp, &cube->texture.line_len, &cube->texture.endian);
-	if (!cube->texture.data)
-		print_error(cube, "Erreur image data.", 1);
- 	mlx_put_image_to_window(cube->mlx, cube->win, cube->texture.img, 0, 0);
+	cube->main_img.data = mlx_get_data_addr(cube->main_img.img,
+		&cube->main_img.bpp, &cube->main_img.line_len, &cube->main_img.endian);
+	if (!cube->main_img.data)
+		print_error(cube, "image data.", 1);
+	load_img(cube, &cube->texture.texture_no, cube->x_file.text_no);
+	load_img(cube, &cube->texture.texture_so, cube->x_file.text_so);
+	load_img(cube, &cube->texture.texture_ea, cube->x_file.text_ea);
+	load_img(cube, &cube->texture.texture_we, cube->x_file.text_we);
+	// cube->texture.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT);
+	// if (!cube->texture.img)
+	// 	print_error(cube, "Erreur image.", 1);
+	// cube->texture.data = mlx_get_data_addr(cube->texture.img,
+	// 	&cube->texture.bpp, &cube->texture.line_len, &cube->texture.endian);
+	// if (!cube->texture.data)
+	// 	print_error(cube, "Erreur image data.", 1);
+ 	// mlx_put_image_to_window(cube->mlx, cube->win, cube->texture.img, 0, 0);
 	return (1);
 }
 

@@ -4,7 +4,7 @@ PURPLE_BLINK=\033[5;35m
 
 RESET=\033[0m
 
-CFLAGS = -Wall -Wextra -Werror -g -D_GNU_SOURCE
+CFLAGS = -Wall -Wextra -Werror -g
 
 SRC = 	src/main.c \
 		src/init.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/07 17:30:05 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:11:53 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 
 #define LIMITE 500;
 
-#ifndef M_PI
-# define M_PI 3.14159265358979323846
-#endif
+// #ifndef M_PI
+// # define M_PI 3.14159265358979323846
+// #endif
+
+#define DEBUG 0
 
 
 // x = colonne
@@ -35,13 +37,6 @@
 // y                    |
 // |                    |
 // ----------------------
-typedef enum e_dir
-{
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST,
-}			t_dir;
 
 #define WIDTH 1280
 #define HEIGHT 720
@@ -53,13 +48,38 @@ typedef enum e_dir
 #define F 4
 #define C 5
 
-typedef struct s_texture
+// typedef struct s_texture
+// {
+	// 	void	*img;
+	// 	char	*data;
+	// 	int		bpp;
+	// 	int		line_len;
+	// 	int		endian;
+	// }			t_texture;
+
+typedef enum e_dir
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST,
+}			t_dir;
+	
+typedef struct s_image
 {
 	void	*img;
 	char	*data;
 	int		bpp;
 	int		line_len;
 	int		endian;
+}			t_image;
+
+typedef struct s_texture
+{
+	t_image	texture_no;
+	t_image	texture_so;
+	t_image	texture_we;
+	t_image	texture_ea;
 }			t_texture;
 
 typedef struct s_file
@@ -91,6 +111,7 @@ typedef struct s_data
 	t_texture	texture;
 	t_dir		type;
 	t_player	player;
+	t_image		main_img;
 	t_file		x_file;
 }				t_data;
 
@@ -129,6 +150,7 @@ void	free_cube(t_data *cube);
 // -------------------- E X E C U T I O N ----------------------------
 
 // raycasting
+int touch(float px, float py, t_data *cube);
 int execution(t_data *cube);
 
 // mouvement

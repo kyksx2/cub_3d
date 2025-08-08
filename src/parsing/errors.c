@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:34:21 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/07 17:25:32 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:23:22 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,51 @@ void free_map(t_data *err)
 	err->x_file.map = NULL;
 }
 
+void	free_x_file(t_file *file)
+{
+	int i;
+
+	i = 0;
+	if (file->text_no)
+		free(file->text_no);
+	if (file->text_so)
+		free(file->text_so);
+	if (file->text_ea)
+		free(file->text_ea);
+	if (file->text_we)
+		free(file->text_we);
+	if (file->map)
+	{
+		while(file->map[i])
+		{
+			free(file->map[i]);
+			i++;
+		}
+		free(file->map);
+	}
+		
+}
+
+void	free_img(t_data *cube, t_texture *texture)
+{
+	if (texture->texture_no.img)
+		mlx_destroy_image(cube->mlx, texture->texture_no.img);
+	if (texture->texture_so.img)
+		mlx_destroy_image(cube->mlx, texture->texture_so.img);
+	if (texture->texture_ea.img)
+		mlx_destroy_image(cube->mlx, texture->texture_ea.img);
+	if (texture->texture_we.img)
+		mlx_destroy_image(cube->mlx, texture->texture_we.img);	
+}
+
 void	free_cube(t_data *cube)
 {
 	if (!cube)
 		return ;
-	if (cube->x_file.text_no)
-		free(cube->x_file.text_no);
-	if (cube->x_file.text_so)
-		free(cube->x_file.text_so);
-	if (cube->x_file.text_we)
-		free(cube->x_file.text_we);
-	if (cube->x_file.text_ea)
-		free(cube->x_file.text_ea);
-	if (cube->x_file.map)
-		free_map(cube);
-	if (cube->texture.img && cube->mlx)
-		mlx_destroy_image(cube->mlx, cube->texture.img);
+	free_x_file(&cube->x_file);
+	free_img(cube, &cube->texture);
+	if (cube->main_img.img)
+		mlx_destroy_image(cube->mlx, cube->main_img.img);
 	if (cube->win && cube->mlx)
 		mlx_destroy_window(cube->mlx, cube->win);
 	if (cube->mlx)
@@ -52,8 +81,6 @@ void	free_cube(t_data *cube)
 		mlx_destroy_display(cube->mlx);
 		free(cube->mlx);
 	}
-	if (cube->file)
-		free(cube->file);
 }
 
 void    print_error(t_data *data, char *str, int i)
