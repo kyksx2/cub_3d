@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/08 18:11:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/09 14:50:28 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,28 @@ typedef enum e_dir
 	WEST,
 }			t_dir;
 	
-typedef struct s_image
-{
-	void	*img;
-	char	*data;
-	int		bpp;
-	int		line_len;
-	int		endian;
-}			t_image;
+// typedef struct s_image
+// {
+// 	void	*img;
+// 	char	*data;
+// 	int		bpp;
+// 	int		line_len;
+// 	int		endian;
+// }			t_image;
 
 typedef struct s_texture
 {
-	t_image	texture_no;
-	t_image	texture_so;
-	t_image	texture_we;
-	t_image	texture_ea;
+	// t_image	texture_no;
+	// t_image	texture_so;
+	// t_image	texture_we;
+	// t_image	texture_ea;
+	void	*img;
+	char	*data;
+	int		width;
+	int		height;
+	int		bpp;
+	int		line_len;
+	int		endian;
 }			t_texture;
 
 typedef struct s_file
@@ -108,10 +115,10 @@ typedef struct s_data
 	int			height;
 	char		*file;
 	int			count_player;
-	t_texture	texture;
+	t_texture	texture[4];
 	t_dir		type;
 	t_player	player;
-	t_image		main_img;
+	t_texture	main_img;
 	t_file		x_file;
 }				t_data;
 

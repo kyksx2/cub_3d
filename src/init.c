@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 17:22:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/08 18:15:36 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/09 14:57:49 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,10 @@ static void	init_player(t_data *cube)
 	}
 }
 
-void	load_img(t_data *cube, t_image *texture, char *str)
+void	load_img(t_data *cube, t_texture *texture, char *str)
 {
-	int h;
-	int	w;
-
-	texture->img = mlx_xpm_file_to_image(cube->mlx, str, &w, &h);
+	texture->img = mlx_xpm_file_to_image(cube->mlx, str, &texture->width,
+		&texture->height);
 	if (!texture->img)
 		print_error(cube, "chargement de l'image.", -1);
 	texture->data = mlx_get_data_addr(texture->img, &texture->bpp, 
@@ -90,10 +88,10 @@ static int	init_game(t_data *cube)
 		&cube->main_img.bpp, &cube->main_img.line_len, &cube->main_img.endian);
 	if (!cube->main_img.data)
 		print_error(cube, "image data.", 1);
-	load_img(cube, &cube->texture.texture_no, cube->x_file.text_no);
-	load_img(cube, &cube->texture.texture_so, cube->x_file.text_so);
-	load_img(cube, &cube->texture.texture_ea, cube->x_file.text_ea);
-	load_img(cube, &cube->texture.texture_we, cube->x_file.text_we);
+	load_img(cube, &cube->texture[0], cube->x_file.text_no);
+	load_img(cube, &cube->texture[1], cube->x_file.text_so);
+	load_img(cube, &cube->texture[2], cube->x_file.text_ea);
+	load_img(cube, &cube->texture[3], cube->x_file.text_we);
 	// cube->texture.img = mlx_new_image(cube->mlx, WIDTH, HEIGHT);
 	// if (!cube->texture.img)
 	// 	print_error(cube, "Erreur image.", 1);

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:34:21 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/08 18:23:22 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/09 14:58:23 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void	free_x_file(t_file *file)
 
 void	free_img(t_data *cube, t_texture *texture)
 {
-	if (texture->texture_no.img)
-		mlx_destroy_image(cube->mlx, texture->texture_no.img);
-	if (texture->texture_so.img)
-		mlx_destroy_image(cube->mlx, texture->texture_so.img);
-	if (texture->texture_ea.img)
-		mlx_destroy_image(cube->mlx, texture->texture_ea.img);
-	if (texture->texture_we.img)
-		mlx_destroy_image(cube->mlx, texture->texture_we.img);	
+	if (texture[0].img)
+		mlx_destroy_image(cube->mlx, texture[0].img);
+	if (texture[1].img)
+		mlx_destroy_image(cube->mlx, texture[1].img);
+	if (texture[2].img)
+		mlx_destroy_image(cube->mlx, texture[2].img);
+	if (texture[3].img)
+		mlx_destroy_image(cube->mlx, texture[3].img);	
 }
 
 void	free_cube(t_data *cube)
@@ -71,7 +71,7 @@ void	free_cube(t_data *cube)
 	if (!cube)
 		return ;
 	free_x_file(&cube->x_file);
-	free_img(cube, &cube->texture);
+	free_img(cube, cube->texture);
 	if (cube->main_img.img)
 		mlx_destroy_image(cube->mlx, cube->main_img.img);
 	if (cube->win && cube->mlx)

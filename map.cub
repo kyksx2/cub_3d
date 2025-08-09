@@ -1,14 +1,14 @@
 NO images/img1.xpm
-SO images/img1.xpm
-WE images/img1.xpm
-EA images/img1.xpm
+SO images/img2.xpm
+WE images/img3.xpm
+EA images/img4.xpm
 
 F 220,100,0
 C 255,30,0
 
 111111111
-10N010001
-100010001
-100000011
+10001 101
+100011101
+1000W0011
 100010001
 111111111
