@@ -15,7 +15,8 @@ SRC = 	src/main.c \
 		src/parsing/check_open.c \
 		src/parsing/outils.c \
 		src/execution/action.c \
-		src/parsing/errors.c \
+		src/parsing/print_and_free.c \
+		src/parsing/err_checking.c \
 		src/parsing/validate_map.c \
 		src/execution/render.c \
 		src/execution/raycasting.c \

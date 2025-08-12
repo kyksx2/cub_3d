@@ -1,12 +1,12 @@
-NO images/good_wall.xpm
-SO images/good_wall.xpm
-WE images/good_wall.xpm
-EA images/good_wall.xpm
+NO images/512.xpm
+SO images/miroirs_roses.xpm
+WE images/ciel.xpm
+EA images/miroirs_roses.xpm
 
-F 220,100,0
+F5 238,130,0
 C 255,30,0
 
-        1111111111111111111111111
+        111111111111111111111111
         1000000000110000000000001
         1011000001110000000000001
         1001000000000000000000001

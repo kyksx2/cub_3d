@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/12 18:16:50 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 22:37:55 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 # define LIMITE 500;
 
-// #ifndef M_PI
-// # define M_PI 3.14159265358979323846
-// #endif
+#ifndef M_PI
+# define M_PI 3.14159265358979323846
+#endif
 
 # define FOV 60.0f
 
@@ -53,7 +53,17 @@ typedef enum e_dir
 	SOUTH,
 	EAST,
 	WEST,
+	FLOOR,
+	CEIL,
 }			t_dir;
+
+typedef struct s_mini_map
+{
+	int	x;
+	int	y;
+	int	color;
+	int	size;
+}		t_mini_map;
 
 typedef struct s_texture
 {
@@ -72,6 +82,8 @@ typedef struct s_file
 	char	*text_so;
 	char	*text_we;
 	char	*text_ea;
+	char	*text_floor;
+	char	*text_ceiling;
 	int		color_f;
 	int		color_c;
 	char	**map;
@@ -126,15 +138,21 @@ typedef struct s_data
 	t_dir		type;
 	t_player	player;
 	t_texture	main_img;
+	t_texture	floor;
+	t_texture	ceil;
 	t_fov		fov_raycast;
 	t_raycast	raycasting;
 	t_file		x_file;
+	t_mini_map	mini;
 }				t_data;
 
 void	init_all(t_data *init, char *file);
+void	load_img(t_data *cube, t_texture *texture, char *str);
 
 // Check text+color
 void	open_map(t_data *cube);
+void	check_color(t_data *cube, char *str, int type, char *line);
+void	check_path(t_data *cube, char *str, int type, char *line);
 
 // Check_open
 int		check_xpm(char *str);
@@ -162,13 +180,15 @@ void	print_error(t_data *data, char *str, int i);
 void	map_error(t_list *error, char **map, int i);
 void	print_error(t_data *check, char *str, int i);
 void	free_cube(t_data *cube);
+void	err_checking(t_data *cube, char *line, char *trimmed, char *msg);
+void clean_gnl_and_exit(t_data **cube, char *line, char *msg, int code);
 
 // Init
-void	init_ray(t_data *cube)
-int		init_game(t_data *cube)
-void	load_img(t_data *cube, t_texture *texture, char *str)
-void	init_player(t_data *cube)
-void	init_fov(t_fov *fov, t_player *player)
+void	init_ray(t_data *cube);
+int		init_game(t_data *cube);
+void	load_img(t_data *cube, t_texture *texture, char *str);
+void	init_player(t_data *cube);
+void	init_fov(t_fov *fov, t_player *player);
 
 // -------------------- E X E C U T I O N ----------------------------
 
@@ -196,5 +216,6 @@ int		endgame(t_data *cube);
 void	killer_queen(t_data *cube, t_raycast *ray, int screenX,
 			t_player *player);
 void	put_pixel(int x, int y, int color, t_data *game);
+int		get_pixel(t_texture *t, int x, int y);
 
 #endif
