@@ -18,6 +18,11 @@ SRC = 	src/main.c \
 		src/parsing/errors.c \
 		src/parsing/validate_map.c \
 		src/execution/render.c \
+		src/execution/raycasting.c \
+		src/execution/texture.c \
+		src/parsing/outils_create.c \
+		src/execution/move.c \
+		src/execution/define_dist.c \
 
 MLX = include/mlx_linux/libmlx.a
 

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/08 16:21:56 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 16:05:23 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	check_path(t_data *cube, char *str, int type)
 {
 	char	*trimmed;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	while (str[i] && str[i] == ' ')
 		i++;
 	trimmed = ft_strtrim(&str[i], " \n\r\t");
@@ -41,13 +42,15 @@ void	check_color(t_data *cube, char *str, int type)
 {
 	int	i;
 	int	k;
-	int	value[3] = {0, 0, 0};
+	int	value[3];
 	int	final_value;
 
 	i = 0;
 	final_value = 0;
 	k = 0;
-	while(k < 3)
+	while (i < 3)
+		value[i++] = 0;
+	while (k < 3)
 	{
 		while (str[i] == ' ')
 			i++;
@@ -82,15 +85,15 @@ void	check_line(t_data *cube, char *str)
 	int	i;
 
 	i = 0;
-	while(str[i] && str[i] == ' ')
+	while (str[i] && str[i] == ' ')
 		i++;
-	if(str[i] == 'N' && str[i + 1] == 'O' && str[i + 2] == ' ')
+	if (str[i] == 'N' && str[i + 1] == 'O' && str[i + 2] == ' ')
 		check_path(cube, str + i + 3, NO);
-	else if(str[i] == 'S' && str[i + 1] == 'O' && str[i + 2] == ' ')
+	else if (str[i] == 'S' && str[i + 1] == 'O' && str[i + 2] == ' ')
 		check_path(cube, str + i + 3, SO);
-	else if(str[i] == 'W' && str[i + 1] == 'E' && str[i + 2] == ' ')
+	else if (str[i] == 'W' && str[i + 1] == 'E' && str[i + 2] == ' ')
 		check_path(cube, str + i + 3, WE);
-	else if(str[i] == 'E' && str[i + 1] == 'A' && str[i + 2] == ' ')
+	else if (str[i] == 'E' && str[i + 1] == 'A' && str[i + 2] == ' ')
 		check_path(cube, str + i + 3, EA);
 	else if (str[i] == 'F' && str[i + 1] == ' ')
 		check_color(cube, str + i + 2, F);
@@ -100,7 +103,7 @@ void	check_line(t_data *cube, char *str)
 		return ;
 	else if (str[i] == '\n')
 		return ;
-	 else
+	else
 		print_error(cube, "rentre dans rien", -1);
 }
 
@@ -133,19 +136,19 @@ void	open_map(t_data *cube)
 	str = get_next_line(fd);
 	while (str)
 	{
-        if (start_map(str))
-        {
-            read_line(cube, fd, str);
-            break ;
-        }
+		if (start_map(str))
+		{
+			read_line(cube, fd, str);
+			break ;
+		}
 		check_line(cube, str);
 		free(str);
 		str = get_next_line(fd);
 	}
 	close(fd);
 	if (!str)
-	   print_error(cube, "map introuvable.", 1);
-	if(miss_line(cube))
+		print_error(cube, "map introuvable.", 1);
+	if (miss_line(cube))
 		print_error(cube, "il manque un element.", 1);
 	final_map(cube);
 }

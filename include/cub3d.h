@@ -6,27 +6,26 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/09 14:50:28 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 18:16:50 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
-#include "libft/libft.h"
-#include "mlx_linux/mlx.h"
-#include "mlx_linux/mlx_int.h"
-#include <X11/X.h>
-#include <X11/keysym.h>
-#include <math.h>
+# define CUB3D_H
+# include "libft/libft.h"
+# include "mlx_linux/mlx.h"
+# include "mlx_linux/mlx_int.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <math.h>
 
-#define LIMITE 500;
+# define LIMITE 500;
 
 // #ifndef M_PI
 // # define M_PI 3.14159265358979323846
 // #endif
 
-#define DEBUG 0
-
+# define FOV 60.0f
 
 // x = colonne
 // y = ligne
@@ -38,24 +37,15 @@
 // |                    |
 // ----------------------
 
-#define WIDTH 1280
-#define HEIGHT 720
+# define WIDTH 1280
+# define HEIGHT 720
 
-#define NO 0
-#define SO 1
-#define WE 2
-#define EA 3
-#define F 4
-#define C 5
-
-// typedef struct s_texture
-// {
-	// 	void	*img;
-	// 	char	*data;
-	// 	int		bpp;
-	// 	int		line_len;
-	// 	int		endian;
-	// }			t_texture;
+# define NO 0
+# define SO 1
+# define WE 2
+# define EA 3
+# define F 4
+# define C 5
 
 typedef enum e_dir
 {
@@ -64,22 +54,9 @@ typedef enum e_dir
 	EAST,
 	WEST,
 }			t_dir;
-	
-// typedef struct s_image
-// {
-// 	void	*img;
-// 	char	*data;
-// 	int		bpp;
-// 	int		line_len;
-// 	int		endian;
-// }			t_image;
 
 typedef struct s_texture
 {
-	// t_image	texture_no;
-	// t_image	texture_so;
-	// t_image	texture_we;
-	// t_image	texture_ea;
 	void	*img;
 	char	*data;
 	int		width;
@@ -105,9 +82,39 @@ typedef struct s_player
 	double	x;
 	double	y;
 	double	angle;
+	double	dir_x;
+	double	dir_y;
 }			t_player;
 
-typedef struct s_data 
+typedef struct s_fov
+{
+	float	fov_radian;
+	float	camera_planelenght;
+	float	camera_planex;
+	float	camera_planey;
+}			t_fov;
+
+typedef struct s_raycast
+{
+	float	ray_dirx;
+	float	ray_diry;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+	float	delta_distx;
+	float	delta_disty;
+	float	side_distx;
+	float	side_disty;
+	float	prepwallwist;
+	int		height;
+	int		drawstart;
+	int		drawend;
+}			t_raycast;
+
+typedef struct s_data
 {
 	void		*mlx;
 	void		*win;
@@ -119,6 +126,8 @@ typedef struct s_data
 	t_dir		type;
 	t_player	player;
 	t_texture	main_img;
+	t_fov		fov_raycast;
+	t_raycast	raycasting;
 	t_file		x_file;
 }				t_data;
 
@@ -133,35 +142,59 @@ int		check_open(char *str);
 void	final_map(t_data *game);
 
 // Checking map
-char    **convert_map(t_data *check, t_list *map_lines);
-void    read_line(t_data *cube, int fd, char *first_map_line);
+char	**convert_map(t_data *check, t_list *map_lines);
+void	read_line(t_data *cube, int fd, char *first_map_line);
 int		is_map_valid(char *str);
 int		size_map(t_list *map_lines);
 int		validate_map(t_data *verif);
 int		is_wall(t_data *wall);
-int     check_elements(t_data *elem);
+int		check_elements(t_data *elem);
 
 // Utils
 void	print_map(t_data *cube);
-int		tounekti(char c);
+int		player(char c);
 int		sheinez2(char c);
 int		start_map(char *line);
 
 // Free / errors
-void 	free_map(t_data *err);
-void    print_error(t_data *data, char *str, int i);
+void	free_map(t_data *err);
+void	print_error(t_data *data, char *str, int i);
 void	map_error(t_list *error, char **map, int i);
 void	print_error(t_data *check, char *str, int i);
 void	free_cube(t_data *cube);
 
+// Init
+void	init_ray(t_data *cube)
+int		init_game(t_data *cube)
+void	load_img(t_data *cube, t_texture *texture, char *str)
+void	init_player(t_data *cube)
+void	init_fov(t_fov *fov, t_player *player)
+
 // -------------------- E X E C U T I O N ----------------------------
 
+// dist
+float	distance(float x, float y);
+float	fixed_dist(float px, float py, t_data *cube);
+void	calcul_dist_x(t_player *player, t_raycast *ray);
+void	calcul_dist_y(t_player *player, t_raycast *ray);
+
 // raycasting
-int touch(float px, float py, t_data *cube);
-int execution(t_data *cube);
+int		touch(float px, float py, t_data *cube);
+int		execution(t_data *cube);
+void	raycast(t_data *cube, float cameraX, int screenX);
 
 // mouvement
-int	key_action(int keycode, t_data *cube);
-int	endgame(t_data *cube);
+void	rotate(t_data *cube, double rot);
+void	move_up(t_data *cube, double speed);
+void	move_down(t_data *cube, double speed);
+void	move_left(t_data *cube, double speed);
+void	move_right(t_data *cube, double speed);
+int		key_action(int keycode, t_data *cube);
+int		endgame(t_data *cube);
+
+// texture
+void	killer_queen(t_data *cube, t_raycast *ray, int screenX,
+			t_player *player);
+void	put_pixel(int x, int y, int color, t_data *game);
 
 #endif

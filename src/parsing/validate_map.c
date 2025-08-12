@@ -6,18 +6,18 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:19:20 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/07 14:59:46 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 13:58:46 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void get_max(char **map, t_data *size)
+void	get_max(char **map, t_data *size)
 {
-	int i;
-	int len;
-	int max_width;
-	
+	int	i;
+	int	len;
+	int	max_width;
+
 	max_width = 0;
 	i = 0;
 	while (map[i])
@@ -28,13 +28,12 @@ void get_max(char **map, t_data *size)
 		i++;
 	}
 	size->height = i;
-	size->width = max_width; 
+	size->width = max_width;
 }
-
 
 char	*size_width(char *line, int max)
 {
-	int 	i;
+	int		i;
 	char	*new;
 
 	i = 0;
@@ -77,7 +76,7 @@ void	regular_lines(t_data *data)
 
 void	fill_space(t_data *data)
 {
-	int	i;;
+	int	i;
 	int	j;
 
 	i = 0;

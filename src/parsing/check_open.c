@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:37:25 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/08 16:22:19 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 13:12:11 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	check_xpm(char *str)
 // 		close(fd);
 // 	return (fd >= 0);
 // }
-
 
 int	check_open(char *str)
 {
