@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 18:00:35 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/12 16:05:23 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 22:46:58 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	check_path(t_data *cube, char *str, int type)
+void	check_path(t_data *cube, char *str, int type, char *line)
 {
 	char	*trimmed;
 	int		i;
@@ -24,9 +24,9 @@ void	check_path(t_data *cube, char *str, int type)
 	if (!trimmed)
 		print_error(cube, "allocation échouée.", 1);
 	if (!check_xpm(trimmed))
-		print_error(cube, "texture doit finir par \".xpm\".", 1);
+		err_checking(cube, line, trimmed, "doit finir par \".xpm\".");
 	if (!check_open(trimmed))
-		print_error(cube, "texture invalide.", -1);
+		err_checking(cube, line, trimmed, "texture invalide.");
 	if (type == NO && !cube->x_file.text_no)
 		cube->x_file.text_no = ft_strdup(trimmed);
 	else if (type == SO && !cube->x_file.text_so)
@@ -38,7 +38,7 @@ void	check_path(t_data *cube, char *str, int type)
 	free(trimmed);
 }
 
-void	check_color(t_data *cube, char *str, int type)
+void	check_color(t_data *cube, char *str, int type, char *line)
 {
 	int	i;
 	int	k;
@@ -60,15 +60,15 @@ void	check_color(t_data *cube, char *str, int type)
 			i++;
 		}
 		if (value[k] < 0 || value[k] > 255)
-			print_error(cube, "mauvais code rgb.", 1);
+			clean_gnl_and_exit(&cube, line, "mauvais code rgb", -1);
 		while (str[i] == ' ')
 			i++;
 		if (k == 2 && str[i] != '\n')
-			print_error(cube, "code rgb trop long.", 1);
+			clean_gnl_and_exit(&cube, line, "code rgb trop long.", -1);
 		if (k < 2)
 		{
 			if (str[i] != ',')
-				print_error(cube, "element invalide code rgb.", 1);
+				clean_gnl_and_exit(&cube, line, "element invalide rgb", -1);
 			i++;
 		}
 		k++;
@@ -80,7 +80,7 @@ void	check_color(t_data *cube, char *str, int type)
 		cube->x_file.color_c = final_value;
 }
 
-void	check_line(t_data *cube, char *str)
+void	check_line(t_data *cube, char *str, char *line)
 {
 	int	i;
 
@@ -88,23 +88,23 @@ void	check_line(t_data *cube, char *str)
 	while (str[i] && str[i] == ' ')
 		i++;
 	if (str[i] == 'N' && str[i + 1] == 'O' && str[i + 2] == ' ')
-		check_path(cube, str + i + 3, NO);
+		check_path(cube, str + i + 3, NO, line);
 	else if (str[i] == 'S' && str[i + 1] == 'O' && str[i + 2] == ' ')
-		check_path(cube, str + i + 3, SO);
+		check_path(cube, str + i + 3, SO, line);
 	else if (str[i] == 'W' && str[i + 1] == 'E' && str[i + 2] == ' ')
-		check_path(cube, str + i + 3, WE);
+		check_path(cube, str + i + 3, WE, line);
 	else if (str[i] == 'E' && str[i + 1] == 'A' && str[i + 2] == ' ')
-		check_path(cube, str + i + 3, EA);
+		check_path(cube, str + i + 3, EA, line);
 	else if (str[i] == 'F' && str[i + 1] == ' ')
-		check_color(cube, str + i + 2, F);
+		check_color(cube, str + i + 2, F, line);
 	else if (str[i] == 'C' && str[i + 1] == ' ')
-		check_color(cube, str + i + 2, C);
+		check_color(cube, str + i + 2, C, line);
 	else if (str[i] == '1')
 		return ;
 	else if (str[i] == '\n')
 		return ;
 	else
-		print_error(cube, "rentre dans rien", -1);
+		err_checking(cube, line, NULL, "aucune correspondance.");
 }
 
 int	miss_line(t_data *cube)
@@ -141,7 +141,7 @@ void	open_map(t_data *cube)
 			read_line(cube, fd, str);
 			break ;
 		}
-		check_line(cube, str);
+		check_line(cube, str, str);
 		free(str);
 		str = get_next_line(fd);
 	}

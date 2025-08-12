@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:10:22 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/12 18:05:35 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 19:45:56 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	rotate(t_data *cube, double rot)
 
 	cos_r = cos(rot);
 	sin_r = sin(rot);
-	old_cameraplane = cube->fov_raycast.cameraPlaneX;
-	cube->fov_raycast.cameraPlaneX = cube->fov_raycast.cameraPlaneX * cos_r
-		- cube->fov_raycast.cameraPlaneY * sin_r;
-	cube->fov_raycast.cameraPlaneY = old_cameraplane * sin_r
-		+ cube->fov_raycast.cameraPlaneY * cos_r;
+	old_cameraplane = cube->fov_raycast.camera_planex;
+	cube->fov_raycast.camera_planex = cube->fov_raycast.camera_planex * cos_r
+		- cube->fov_raycast.camera_planey * sin_r;
+	cube->fov_raycast.camera_planey = old_cameraplane * sin_r
+		+ cube->fov_raycast.camera_planey * cos_r;
 	cube->player.angle += rot;
 }
 

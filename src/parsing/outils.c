@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   outils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 19:45:43 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/12 15:16:33 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 21:29:07 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	load_img(t_data *cube, t_texture *texture, char *str)
+{
+	texture->img = mlx_xpm_file_to_image(cube->mlx, str, &texture->width,
+			&texture->height);
+	if (!texture->img)
+		print_error(cube, "chargement de l'image.", -1);
+	texture->data = mlx_get_data_addr(texture->img, &texture->bpp,
+			&texture->line_len, &texture->endian);
+	if (!texture->data)
+		print_error(cube, "chargement de l'image.", -1);
+}
 
 int	start_map(char *line)
 {

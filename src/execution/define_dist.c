@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_dist.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:36:41 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/12 18:05:56 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 19:45:02 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void	calcul_dist_x(t_player *player, t_raycast *ray)
 	float	player_map_x;
 
 	player_map_x = player->x / 64.0f;
-	if (ray->rayDirX < 0)
+	if (ray->ray_dirx < 0)
 	{
-		ray->stepX = -1;
-		ray->sideDistX = (player_map_x - ray->mapX) * ray->deltaDistX;
+		ray->step_x = -1;
+		ray->side_distx = (player_map_x - ray->map_x) * ray->delta_distx;
 	}
 	else
 	{
-		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1 - player_map_x) * ray->deltaDistX;
+		ray->step_x = 1;
+		ray->side_distx = (ray->map_x + 1 - player_map_x) * ray->delta_distx;
 	}
 }
 
@@ -34,15 +34,15 @@ void	calcul_dist_y(t_player *player, t_raycast *ray)
 	float	player_map_y;
 
 	player_map_y = player->y / 64.0f;
-	if (ray->rayDirY < 0)
+	if (ray->ray_diry < 0)
 	{
-		ray->stepY = -1;
-		ray->sideDistY = (player_map_y - ray->mapY) * ray->deltaDistY;
+		ray->step_y = -1;
+		ray->side_disty = (player_map_y - ray->map_y) * ray->delta_disty;
 	}
 	else
 	{
-		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1 - player_map_y) * ray->deltaDistY;
+		ray->step_y = 1;
+		ray->side_disty = (ray->map_y + 1 - player_map_y) * ray->delta_disty;
 	}
 }
 

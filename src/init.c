@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 17:22:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/12 18:19:01 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 21:29:03 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,21 @@ void	init_fov(t_fov *fov, t_player *player)
 	fov->camera_planey = cos(player->angle) * fov->camera_planelenght;
 }
 
+void	init_player_at_pos(t_data *cube, int x, int y)
+{
+	cube->player.x = (x + 0.5) * 64;
+	cube->player.y = (y + 0.5) * 64;
+	if (cube->x_file.map[y][x] == 'N')
+		cube->player.angle = 3 * M_PI / 2;
+	else if (cube->x_file.map[y][x] == 'S')
+		cube->player.angle = M_PI / 2;
+	else if (cube->x_file.map[y][x] == 'E')
+		cube->player.angle = 0;
+	else if (cube->x_file.map[y][x] == 'W')
+		cube->player.angle = M_PI;
+	cube->x_file.map[y][x] = '0';
+}
+
 void	init_player(t_data *cube)
 {
 	int	y;
@@ -34,38 +49,14 @@ void	init_player(t_data *cube)
 		while (cube->x_file.map[y][x])
 		{
 			if (cube->x_file.map[y][x] == 'N' || cube->x_file.map[y][x] == 'S'
-			|| cube->x_file.map[y][x] == 'E'
-			|| cube->x_file.map[y][x] == 'W')
-			{
-				cube->player.x = (x + 0.5) * 64;
-				cube->player.y = (y + 0.5) * 64;
-				if (cube->x_file.map[y][x] == 'N')
-					cube->player.angle = 3 * M_PI / 2;
-				if (cube->x_file.map[y][x] == 'S')
-					cube->player.angle = M_PI / 2;
-				if (cube->x_file.map[y][x] == 'E')
-					cube->player.angle = 0;
-				if (cube->x_file.map[y][x] == 'W')
-					cube->player.angle = M_PI;
-				cube->x_file.map[y][x] = '0';
-			}
+				|| cube->x_file.map[y][x] == 'E'
+				|| cube->x_file.map[y][x] == 'W')
+				init_player_at_pos(cube, x, y);
 			x++;
 		}
 		y++;
 	}
 	init_fov(&cube->fov_raycast, &cube->player);
-}
-
-void	load_img(t_data *cube, t_texture *texture, char *str)
-{
-	texture->img = mlx_xpm_file_to_image(cube->mlx, str, &texture->width,
-			&texture->height);
-	if (!texture->img)
-		print_error(cube, "chargement de l'image.", -1);
-	texture->data = mlx_get_data_addr(texture->img, &texture->bpp,
-			&texture->line_len, &texture->endian);
-	if (!texture->data)
-		print_error(cube, "chargement de l'image.", -1);
 }
 
 int	init_game(t_data *cube)
@@ -99,7 +90,7 @@ void	init_ray(t_data *cube)
 	cube->raycasting.delta_disty = 0;
 	cube->raycasting.map_x = 0;
 	cube->raycasting.map_y = 0;
-	cube->raycasting.prepwalldist = 0;
+	cube->raycasting.prepwallwist = 0;
 	cube->raycasting.ray_dirx = 0;
 	cube->raycasting.ray_diry = 0;
 	cube->raycasting.side_distx = 0;

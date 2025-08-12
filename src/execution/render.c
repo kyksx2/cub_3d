@@ -3,35 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:02:43 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/12 17:55:22 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 21:27:06 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	draw_square(int size, int color, t_data *game)
+void	draw_square(t_mini_map square, t_data *game)
 {
 	int	i;
-	int	x;
-	int	y;
 
 	i = 0;
-	x = game->player.x / 4;
-	y = game->player.y / 4;
-	while (i < size)
-		put_pixel(x + i++, y, color, game);
-	i = 0;
-	while (i < size)
-		put_pixel(x, y + i++, color, game);
-	i = 0;
-	while (i < size)
-		put_pixel(x + size, y + i++, color, game);
-	i = 0;
-	while (i < size)
-		put_pixel(x + i++, y + size, color, game);
+	while (i < square.size)
+	{
+		put_pixel(square.x + i, square.y, square.color, game);
+		put_pixel(square.x + i, square.y + square.size - 1, square.color, game);
+		put_pixel(square.x, square.y + i, square.color, game);
+		put_pixel(square.x + square.size - 1, square.y + i, square.color, game);
+		i++;
+	}
 }
 
 void	clear_image(t_data *game)
@@ -54,21 +47,26 @@ void	clear_image(t_data *game)
 
 void	draw_map(t_data *cube)
 {
-	char	**map;
-	int		color;
-	int		x;
-	int		y;
+	char		**map;
+	int			x;
+	int			y;
+	t_mini_map	square;
 
 	y = 0;
 	map = cube->x_file.map;
-	color = 0xFFFFFF;
 	while (map[y])
 	{
 		x = 0;
 		while (map[y][x])
 		{
 			if (map[y][x] == '1')
-				draw_square(16, color, cube);
+			{
+				square.x = x * 16;
+				square.y = y * 16;
+				square.size = 16;
+				square.color = 0x000000;
+				draw_square(square, cube);
+			}
 			x++;
 		}
 		y++;
@@ -103,7 +101,11 @@ int	execution(t_data *cube)
 		raycast(cube, camera_x, screen_x);
 		screen_x++;
 	}
-	draw_square(4, 0x00FF00, cube);
+	cube->mini.x = cube->player.x / 4;
+	cube->mini.y = cube->player.y / 4;
+	cube->mini.size = 4;
+	cube->mini.color = 0x00FF00;
+	draw_square(cube->mini, cube);
 	draw_map(cube);
 	mlx_put_image_to_window(cube->mlx, cube->win, cube->main_img.img, 0, 0);
 	return (0);

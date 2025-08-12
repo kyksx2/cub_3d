@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:48:36 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/12 18:03:20 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/12 21:24:56 by shtounek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int	find_face(t_raycast *ray)
 {
 	if (ray->side == 0)
 	{
-		if (ray->rayDirX > 0)
+		if (ray->ray_dirx > 0)
 			return (EA);
 		else
 			return (WE);
 	}
 	else
 	{
-		if (ray->rayDirY > 0)
+		if (ray->ray_diry > 0)
 			return (SO);
 		else
 			return (NO);
@@ -75,14 +75,15 @@ void	killer_queen(t_data *cube, t_raycast *ray, int sX, t_player *player)
 	end_y = start_y + ray->height;
 	y = 0;
 	if (ray->side == 0)
-		wall_x = (player->y / 64.0f) + ray->prepWallDist * ray->rayDirY;
+		wall_x = (player->y / 64.0f) + ray->prepwallwist * ray->ray_diry;
 	else
-		wall_x = (player->x / 64.0f) + ray->prepWallDist * ray->rayDirX;
+		wall_x = (player->x / 64.0f) + ray->prepwallwist * ray->ray_dirx;
 	wall_x -= floor(wall_x);
 	face = find_face(ray);
 	tex_x = (int)(wall_x * (float)(cube->texture[face].width));
-	if ((ray->side == 0 && ray->rayDirX > 0) || (ray->side == 1 && ray->rayDirY < 0))
-		tex_x = cube->texture[face].width - tex_x - 1;
+	if ((ray->side == 0 && ray->ray_dirx > 0)
+		|| (ray->side == 1 && ray->ray_diry < 0))
+			tex_x = cube->texture[face].width - tex_x - 1;
 	step = (float)cube->texture[face].height / ray->height;
 	tex_pos = (start_y - (HEIGHT / 2) + (ray->height / 2)) * (int)step;
 	y = 0;
@@ -122,14 +123,14 @@ void	killer_queen(t_data *cube, t_raycast *ray, int sX, t_player *player)
 //     int     color;
 //     int     y = 0;
 //     if (ray->side == 0)
-//         wall_x = (player->y / 64.0f) + ray->prepWallDist * ray->rayDirY;
+//         wall_x = (player->y / 64.0f) + ray->prepwallwist * ray->ray_diry;
 //     else
-//         wall_x = (player->x / 64.0f) + ray->prepWallDist * ray->rayDirX;
+//         wall_x = (player->x / 64.0f) + ray->prepwallwist * ray->ray_dirx;
 //     wall_x -= floor(wall_x); // ? garder la partie decimale
 //     face = find_face(ray);
 //     texX = (int)(wall_x * (float)(cube->texture[face].width));
-//     if ((ray->side == 0 && ray->rayDirX > 0)
-//         || (ray->side == 1 && ray->rayDirY < 0))
+//     if ((ray->side == 0 && ray->ray_dirx > 0)
+//         || (ray->side == 1 && ray->ray_diry < 0))
 //         texX = cube->texture[face].width - texX - 1;
 //     step = (float)cube->texture[face].height / ray->height;
 //     texPos = (ray->drawStart - HEIGHT / 2 + ray->height / 2) * step;
