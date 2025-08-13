@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_and_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:34:21 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/12 22:36:04 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:49:09 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	free_cube(t_data *cube)
 void	print_error(t_data *data, char *str, int i)
 {
 	free_cube(data);
-	ft_printf("Erreur: %s\n", str);
+	if (str)
+		ft_printf("Erreur: %s\n", str);
 	exit(i);
 }

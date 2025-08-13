@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/12 22:37:55 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:19:15 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,28 @@ typedef struct s_data
 	t_mini_map	mini;
 }				t_data;
 
+typedef struct s_garmin
+{
+	float	wall_x;
+	int		face;
+	int		tex_x;
+	int		tex_y;
+	float	step;
+	float	tex_pos;
+	int		color;
+	int		start_y;
+	int		end_y;
+	int		y;
+}			t_garmin;
+
 void	init_all(t_data *init, char *file);
 void	load_img(t_data *cube, t_texture *texture, char *str);
 
 // Check text+color
 void	open_map(t_data *cube);
-void	check_color(t_data *cube, char *str, int type, char *line);
-void	check_path(t_data *cube, char *str, int type, char *line);
+int		check_color(t_data *cube, char *str, int type);
+int		check_path(t_data *cube, char *str, int type);
+void	jojo_bizzare_aventure(t_data *cube);
 
 // Check_open
 int		check_xpm(char *str);
@@ -180,8 +195,7 @@ void	print_error(t_data *data, char *str, int i);
 void	map_error(t_list *error, char **map, int i);
 void	print_error(t_data *check, char *str, int i);
 void	free_cube(t_data *cube);
-void	err_checking(t_data *cube, char *line, char *trimmed, char *msg);
-void clean_gnl_and_exit(t_data **cube, char *line, char *msg, int code);
+void	free_list(t_list **list);
 
 // Init
 void	init_ray(t_data *cube);
@@ -189,6 +203,7 @@ int		init_game(t_data *cube);
 void	load_img(t_data *cube, t_texture *texture, char *str);
 void	init_player(t_data *cube);
 void	init_fov(t_fov *fov, t_player *player);
+void	ok_garmin_initialise_la_structure(t_garmin	*tex, t_raycast *ray);
 
 // -------------------- E X E C U T I O N ----------------------------
 
@@ -217,5 +232,7 @@ void	killer_queen(t_data *cube, t_raycast *ray, int screenX,
 			t_player *player);
 void	put_pixel(int x, int y, int color, t_data *game);
 int		get_pixel(t_texture *t, int x, int y);
+void	floor_ceiling_looping(t_garmin *tex, t_data *cube, int sX);
+int		find_face(t_raycast *ray);
 
 #endif

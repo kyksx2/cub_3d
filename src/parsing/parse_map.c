@@ -6,11 +6,27 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 19:04:45 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/08 14:03:31 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/13 15:10:41 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+int	is_map_valid(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '0' && str[i] != '1' && str[i] != 'N' && str[i] != 'S'
+			&& str[i] != 'E' && str[i] != 'W' && str[i] != ' '
+			&& str[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 static void	init_pos(t_data *init, char c)
 {

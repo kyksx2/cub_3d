@@ -8,22 +8,24 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 SRC = 	src/main.c \
 		src/init.c \
-		src/parsing/check_walls.c \
-		src/parsing/parse_map.c \
-		src/parsing/create_map.c \
-		src/parsing/open_map.c \
+		src/parsing/check_colors.c \
 		src/parsing/check_open.c \
+		src/parsing/check_path.c \
+		src/parsing/check_walls.c \
+		src/parsing/create_map.c \
+		src/parsing/error_parsing.c \
+		src/parsing/free.c \
+		src/parsing/open_map.c \
 		src/parsing/outils.c \
-		src/execution/action.c \
-		src/parsing/print_and_free.c \
-		src/parsing/err_checking.c \
+		src/parsing/parse_map.c \
 		src/parsing/validate_map.c \
+		src/execution/action.c \
 		src/execution/render.c \
 		src/execution/raycasting.c \
 		src/execution/texture.c \
-		src/parsing/outils_create.c \
 		src/execution/move.c \
 		src/execution/define_dist.c \
+		src/execution/texture_utils.c \
 
 MLX = include/mlx_linux/libmlx.a
 
