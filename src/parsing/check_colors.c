@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:47:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/13 16:09:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/14 14:53:15 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	check_color(t_data *cube, char *str, int type)
 	int	value[3];
 	int	final_value;
 
-	i = 0;
-	final_value = 0;
+	i = ((final_value = 0));
 	k = 0;
 	while (i < 3)
 		value[i++] = 0;
@@ -53,13 +52,12 @@ int	check_color(t_data *cube, char *str, int type)
 			printf("mauvais code rgb.\n");
 			return (0);
 		}
-			
 		k++;
 	}
 	final_value = (value[0] << 16) | (value[1] << 8) | value[2];
-	if (type == F)
+	if (type == F && !cube->x_file.color_f)
 		cube->x_file.color_f = final_value;
-	else if (type == C)
+	else if (type == C && !cube->x_file.color_c)
 		cube->x_file.color_c = final_value;
 	return (1);
 }

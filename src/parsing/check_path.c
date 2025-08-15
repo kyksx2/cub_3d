@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:07:40 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/13 16:19:09 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/14 15:09:59 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,38 +33,15 @@ int	check_path(t_data *cube, char *str, int type)
 		free(trimmed);
 		return (printf("Erreur: echec ouverture texture.\n"), 0);
 	}
-	if (type == NO && !cube->x_file.text_no)
-	{
-		cube->x_file.text_no = ft_strdup(trimmed);
-		return (free(trimmed), 1);
-	}
-	else if (type == SO && !cube->x_file.text_so)
-	{
-		cube->x_file.text_so = ft_strdup(trimmed);
-		return (free(trimmed), 1);
-	}
-	else if (type == WE && !cube->x_file.text_we)
-	{
-		cube->x_file.text_we = ft_strdup(trimmed);
-		return (free(trimmed), 1);
-	}
-	else if (type == EA && !cube->x_file.text_ea)
-	{
-		cube->x_file.text_ea = ft_strdup(trimmed);
-		return (free(trimmed), 1);
-	}
+	if (!dup_path_1(type, cube, &trimmed))
+		return (0);
+	if (!dup_path_2(type, cube, &trimmed))
+		return (0);
 	return (1);
 }
 
-int	check_line(t_data *cube, t_list *line)
+int	check_tex_line(char *str, int i, t_data *cube)
 {
-	int		i;
-	char	*str;
-
-	i = 0;
-	str = (char *)line->content;
-	while (str[i] && str[i] == ' ')
-		i++;
 	if (str[i] == 'N' && str[i + 1] == 'O' && str[i + 2] == ' ')
 	{
 		if (!check_path(cube, str + i + 3, NO))
@@ -85,38 +62,42 @@ int	check_line(t_data *cube, t_list *line)
 		if (!check_path(cube, str + i + 3, EA))
 			return (0);
 	}
-	else if (str[i] == 'F' && str[i + 1] == ' ')
-	{
-		if (!check_color(cube, str + i + 2, F))
-			return (0);
-	}
-	else if (str[i] == 'C' && str[i + 1] == ' ')
-	{
-		if (!check_color(cube, str + i + 2, C))
-			return (0);
-	}
-	else if (str[i] == '1')
+	return (1);
+}
+
+int	check_line(t_data *cube, t_list *line)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = (char *)line->content;
+	while (str[i] && str[i] == ' ')
+		i++;
+	if (!check_tex_line(str, i, cube))
+		return (0);
+	else if (!check_color_line(str, i, cube))
+		return (0);
+	else if (str[i] == '1' || str[i] == '0')
 		return (1);
 	else if (str[i] == '\n')
 		return (1);
-	else
-		return (0);
 	return (1);
 }
 
 void	check_list(t_data *cube, t_list *abdelweshzerhma, int fd)
 {
-	t_list *tmp;
+	t_list	*tmp;
 	int		indice_free;
 
 	indice_free = 0;
 	tmp = abdelweshzerhma;
-	while(tmp)
+	while (tmp)
 	{
 		if (!check_line(cube, tmp))
 		{
 			indice_free = 1;
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}

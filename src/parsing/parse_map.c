@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 19:04:45 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/13 15:10:41 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/14 14:27:19 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,5 @@ int	validate_map(t_data *verif)
 		print_error(verif, "murs invalides.", -1);
 	if (!check_elements(verif))
 		print_error(verif, "éléments invalides.", -1);
-	ft_printf("Success.\n");
 	return (0);
 }

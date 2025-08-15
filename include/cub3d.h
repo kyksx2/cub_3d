@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/13 16:19:15 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:53:30 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 # define LIMITE 500;
 
-#ifndef M_PI
-# define M_PI 3.14159265358979323846
-#endif
+// #ifndef M_PI
+// # define M_PI 3.14159265358979323846
+// #endif
 
 # define FOV 60.0f
 
@@ -167,6 +167,7 @@ void	load_img(t_data *cube, t_texture *texture, char *str);
 void	open_map(t_data *cube);
 int		check_color(t_data *cube, char *str, int type);
 int		check_path(t_data *cube, char *str, int type);
+int		check_line(t_data *cube, t_list *line);
 void	jojo_bizzare_aventure(t_data *cube);
 
 // Check_open

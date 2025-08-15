@@ -11,6 +11,7 @@ SRC = 	src/main.c \
 		src/parsing/check_colors.c \
 		src/parsing/check_open.c \
 		src/parsing/check_path.c \
+		src/parsing/check_path_2.c \
 		src/parsing/check_walls.c \
 		src/parsing/create_map.c \
 		src/parsing/error_parsing.c \
@@ -41,7 +42,7 @@ ${NAME}: ${OBJ} ${MLX} ${LIBFT}
 	@cc ${CFLAGS} ${OBJ} -L include/libft -lft -L include/mlx_linux -lmlx -lXext -lX11 -lm -lz -o ${NAME}
 	@echo ""
 	@echo ""
-	@echo "${PURPLE_BLINK}                                               WELCOME TO                                             ${RESET}"
+	@echo "${PURPLE_BLINK}                                           WELCOME TO SHEINEZ_3D                                       ${RESET}"
 	@echo "${PURPLE_BLINK}=======================================================================================================${RESET}"
 	@echo "${PURPLE_BLINK}=======================================================================================================${RESET}"
 	@echo "${PURPLE_BLINK}==                                                                                                   ==${RESET}"
