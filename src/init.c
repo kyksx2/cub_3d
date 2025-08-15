@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shtounek <shtounek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 17:22:19 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/12 21:29:03 by shtounek         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:00:32 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	init_game(t_data *cube)
 		print_error(cube, "image data.", 1);
 	load_img(cube, &cube->texture[0], cube->x_file.text_no);
 	load_img(cube, &cube->texture[1], cube->x_file.text_so);
-	load_img(cube, &cube->texture[2], cube->x_file.text_ea);
-	load_img(cube, &cube->texture[3], cube->x_file.text_we);
+	load_img(cube, &cube->texture[2], cube->x_file.text_we);
+	load_img(cube, &cube->texture[3], cube->x_file.text_ea);
 	return (1);
 }
 

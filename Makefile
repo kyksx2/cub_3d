@@ -20,6 +20,7 @@ SRC = 	src/main.c \
 		src/parsing/outils.c \
 		src/parsing/parse_map.c \
 		src/parsing/validate_map.c \
+		src/parsing/sheinez_path.c \
 		src/execution/action.c \
 		src/execution/render.c \
 		src/execution/raycasting.c \

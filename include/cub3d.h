@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:19:44 by kjolly            #+#    #+#             */
-/*   Updated: 2025/08/14 16:53:30 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/15 14:56:23 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,14 @@ void	load_img(t_data *cube, t_texture *texture, char *str);
 void	open_map(t_data *cube);
 int		check_color(t_data *cube, char *str, int type);
 int		check_path(t_data *cube, char *str, int type);
+int		dup_path_1(int type, t_data *cube, char **trimmed);
+int		dup_path_2(int type, t_data *cube, char **trimmed);
 int		check_line(t_data *cube, t_list *line);
 void	jojo_bizzare_aventure(t_data *cube);
+int		check_color_line(char *str, int i, t_data *cube);
+int		is_color(char *str, int i);
+int		is_tex(char *str, int i);
+int		is_valid(char c);
 
 // Check_open
 int		check_xpm(char *str);

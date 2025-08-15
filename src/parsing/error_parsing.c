@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:35:48 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/14 12:39:20 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/15 13:30:42 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void	map_error(t_list *error, char **map, int i)
 	}
 	free(map);
 	ft_lstclear(&error, free);
-	ft_printf("Erreur : echec de l'allocation de la map.\n");
+	ft_printf("Erreur: echec de l'allocation de la map.\n");
 }

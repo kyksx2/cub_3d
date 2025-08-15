@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 19:07:57 by shtounek          #+#    #+#             */
-/*   Updated: 2025/08/12 15:17:37 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/08/15 14:30:08 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ int	is_wall(t_data *data)
 	if (!horizontal_walls(map))
 		return (0);
 	if (bad_map(map))
-		print_error(data, "espaces dans la map.", -1);
+		print_error(data, "map invalide.", -1);
 	return (1);
 }
